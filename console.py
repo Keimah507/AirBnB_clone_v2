@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Console Module """
+import re
 import cmd
 import sys
 from models.base_model import BaseModel
@@ -10,6 +11,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from shlex import split
 
 
 class HBNBCommand(cmd.Cmd):
@@ -73,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -115,16 +117,39 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
+        if args == "" or args is None:
             print("** class name missing **")
-            return
-        elif args not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+        else:
+            my_list = args.split(" ")
+            classname = my_list[0]
+            if classname not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+            obj = eval("{}()".format(classname))
+            for i in range(1, len(my_list)):
+                rex = r'^(\S+)\=(S+)'
+                match = re.search(rex, my_list[i])
+                if not match:
+                    continue
+                key = match.group(1)
+                value = match.group(2)
+                cast = None
+                if not re.search('^".*"$', value):
+                    if '.' in value:
+                        cast = float
+                    else:
+                        cast = int
+                else:
+                    value = value.replace('"', '')
+                    value = value.replace('_', ' ')
+                if cast:
+                    try:
+                        value = cast(value)
+                    except ValueError:
+                        pass
+                setattr(obj, key, value)
+                obj.save()
+                print("{}".format(obj.id))
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +344,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
