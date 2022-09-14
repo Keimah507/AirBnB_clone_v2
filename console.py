@@ -37,17 +37,17 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel, saves it
         Exceptions:
             SyntaxError: when there is no args given
-            NameError: when there is no object taht has the name
+            NameError: when there is no object that has the name
         """
         if line == "" or line is None:
             print("** class name missing **")
         else:
             my_list = line.split(" ")
             classname = my_list[0]
-            if classname not in HBNBCommand.all_classes:
+            if classname not in storage.classes():
                 print("** class doesn't exist **")
                 return
-            obj = eval("{}()".format(my_list[0]))
+            obj = eval("{}()".format(classname))
             for i in range(1, len(my_list)):
                 rex = r'^(\S+)\=(\S+)'
                 match = re.search(rex, my_list[i])
@@ -72,7 +72,6 @@ class HBNBCommand(cmd.Cmd):
                 setattr(obj, key, value)
             obj.save()
             print("{}".format(obj.id))
-
 
     def do_show(self, line):
         """Prints the string representation of an instance
