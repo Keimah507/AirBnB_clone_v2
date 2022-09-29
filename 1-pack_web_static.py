@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """Generates a .tgz archive from the contents of the web_static folder of 
 the AirBnB clone repo using the function do_pack"""
-from fabric.operations import local
+
+
+from fabric.operations import local, run, put
 from datetime import datetime
 
 
@@ -14,4 +16,3 @@ def do_pack():
     if result.failed:
         return None
     return result
-

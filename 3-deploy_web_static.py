@@ -1,31 +1,29 @@
 #!/usr/bin/python3
 """Creates and distributes an archive to web server"""
 
-
 from fabric.operations import local, put, run
 from datetime import datetime
 import os
 from fabric.api import env
 import re
 
-
 env.hosts = ['18.232.38.189', '34.204.198.100']
 
 
-def do-pack():
+def do_pack():
     """Function to compress files"""
     local("mkdir -p versions")
     filename = "versions/web_static_{}.tgz".format(datetime.strftime(
-                                                   datetime.now(),
-                                                   "%Y%m%d%H%M%S"))
-    result  = local("tar -cvzf {} web_static".format(filename))
+        datetime.now(),
+        "%Y%m%d%H%M%S"))
+    result = local("tar -cvzf {} web_static".format(filename))
     if result.failed:
         return None
     return filename
 
 
 def do_deploy(archive_path):
-    """Functio to distribute an archive to a server"""
+    """Function to distribute an archive to a server"""
     if not os.path.exists(archive_path):
         return False
     rex = r'^versions/(\S+).tgz'
