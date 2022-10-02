@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 """Distributes an archive to web servers"""
 from fabric.operations import put, run, local
 from datetime import datetime
