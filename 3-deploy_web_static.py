@@ -27,7 +27,7 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
     rex = r'^versions/(\S+).tgz'
-    match = re.search(rex.archive_path)
+    match = re.search(rex, archive_path)
     filename = match.group(1)
     res = put(archive_path, "/tmp/{}.tgz".format(filename))
     if res.failed:
@@ -39,7 +39,7 @@ def do_deploy(archive_path):
               .format(filename, filename))
     if res.failed:
         return False
-    res = run("rm /tnp/{}.tgz".format(filename))
+    res = run("rm /tmp/{}.tgz".format(filename))
     if res.failed:
         return False
     res = run("mv /data/web_static/releases/{}"
