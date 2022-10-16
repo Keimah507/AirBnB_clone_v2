@@ -16,6 +16,8 @@ from models.review import Review
 from shlex import split
 
 
+
+
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
