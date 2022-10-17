@@ -7,6 +7,7 @@ from models.city import City
 from models.amenity import Amenity
 from flask import Flask
 from flask import render_template
+
 app = Flask(__name__)
 
 
@@ -25,6 +26,7 @@ def hbnb_filters():
 def teardown(self):
     """Removes the current SQLAlchemy Session"""
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

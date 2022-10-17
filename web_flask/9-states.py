@@ -5,6 +5,7 @@ from models import storage
 from models.state import State
 from flask import Flask
 from flask import render_template
+
 app = Flask(__name__)
 
 
@@ -31,6 +32,7 @@ def states_1(id=None):
 def teardown(self):
     """Removes the current SQLAlchemy Session"""
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
