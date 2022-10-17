@@ -27,6 +27,7 @@ def cisfun(text):
     return 'C %s' % new
 
 
+@app.route('/python', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def pythoniscool(text):
     """Returns a string at the /python/<text> route,
