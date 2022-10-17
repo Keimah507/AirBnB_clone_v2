@@ -35,7 +35,7 @@ def pythoniscool(text):
     return 'Python %s' % new
 
 
-@app.route('/number/n', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
     """Returns a string at the /number/<n> route,
     only if n is an int"""
