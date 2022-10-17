@@ -29,7 +29,8 @@ class DBStorage:
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        """Returns dictionary of all objects depending of class name(argument=cls)"""
+        """Returns dictionary of all objects depending of class name
+        (argument=cls)"""
         if cls:
             objs = self.__session.query(self.classes()[cls])
         else:
